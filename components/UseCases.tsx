@@ -3,55 +3,49 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const UseCases: React.FC = () => {
-  const scenarios = [
-    "Professional pitches.",
-    "Personal connections.",
-    "Difficult negotiations.",
-    "Awkward apologies.",
-    "Urgent updates.",
-    "Heartfelt replies."
-  ];
+  const scenarios = ["Work messages.", "Personal chats.", "Awkward replies.", "Urgent texts."];
 
   return (
-    <section className="h-[140vh] bg-black relative snap-start snap-always">
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-center items-center py-32 px-6 overflow-hidden">
-        <div className="max-w-4xl text-center">
-          <div className="flex flex-wrap justify-center gap-4 md:gap-8">
-            {scenarios.map((text, i) => (
-              <motion.span 
-                key={i}
-                initial={{ opacity: 0, y: 20, color: "rgba(255,255,255,0.1)" }}
-                whileInView={{ opacity: 1, y: 0, color: "rgba(255,255,255,0.6)" }} 
-                whileHover={{ color: "#22c55e", scale: 1.05, opacity: 1 }}
-                whileTap={{ color: "#22c55e", scale: 0.95, opacity: 1 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ 
-                  opacity: { duration: 0.6, delay: 0.2 + (i * 0.1) },
-                  y: { duration: 0.6, delay: 0.2 + (i * 0.1) },
-                  color: { duration: 0.3 },
-                  scale: { duration: 0.2 }
-                }}
-                className="text-4xl md:text-7xl font-black cursor-pointer select-none"
-              >
-                {text}
-              </motion.span>
-            ))}
-          </div>
+    <section className="h-screen w-full flex flex-col items-center justify-center text-center px-4 sm:px-6 relative overflow-hidden bg-[#050505]">
+      {/* Background */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(10)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-white/20 rounded-full"
+            style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%` }}
+            animate={{ opacity: [0.1, 0.3, 0.1] }}
+            transition={{ duration: 3, repeat: Infinity, delay: Math.random() * 2 }}
+          />
+        ))}
+      </div>
 
-          <motion.div 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 1.2, duration: 1 }}
-            className="mt-24 space-y-4"
+      <div className="max-w-3xl space-y-3 sm:space-y-5 z-10">
+        {/* Rapid-fire lines */}
+        {scenarios.map((text, i) => (
+          <motion.p
+            key={i}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.4, delay: i * 0.12 }}
+            className="text-xl sm:text-3xl md:text-5xl font-light text-white/50"
           >
-            <p className="text-3xl md:text-5xl font-light text-white/40 italic">
-              Different situations.
-            </p>
-            <p className="text-4xl md:text-6xl font-black">
-              One solution.
-            </p>
-          </motion.div>
-        </div>
+            {text}
+          </motion.p>
+        ))}
+        
+        {/* Final Line */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="pt-4 sm:pt-8"
+        >
+          <p className="text-2xl sm:text-4xl md:text-6xl font-black text-white">One keyboard.</p>
+          <p className="text-2xl sm:text-4xl md:text-6xl font-black bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">One solution.</p>
+        </motion.div>
       </div>
     </section>
   );

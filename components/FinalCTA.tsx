@@ -4,70 +4,87 @@ import { motion } from 'framer-motion';
 
 const FinalCTA: React.FC = () => {
   return (
-    <section className="min-h-screen flex flex-col items-center justify-end md:justify-center text-center px-6 bg-[#050505] relative py-20 md:py-48 overflow-hidden snap-start snap-always">
-      {/* Decorative Background Grid */}
-      <div className="absolute inset-0 bg-grid opacity-[0.02] pointer-events-none" />
-      
-      {/* Background Glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[150%] h-[50%] bg-green-500/10 blur-[120px] rounded-full pointer-events-none" />
+    <section className="h-screen w-full flex flex-col items-center justify-center text-center px-4 sm:px-6 relative overflow-hidden bg-[#050505]">
+      {/* Confetti-like particles */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {[...Array(30)].map((_, i) => (
+          <motion.div
+            key={i}
+            initial={{ 
+              opacity: 0,
+              y: -20,
+            }}
+            animate={{ 
+              opacity: [0, 0.8, 0],
+              y: ['0vh', '100vh']
+            }}
+            transition={{ 
+              duration: 4 + Math.random() * 3,
+              delay: Math.random() * 3,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="absolute w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full"
+            style={{ 
+              backgroundColor: i % 3 === 0 ? '#22c55e' : i % 3 === 1 ? '#ffffff' : '#22c55e50',
+              left: `${Math.random() * 100}%`
+            }}
+          />
+        ))}
+      </div>
 
-      <div className="max-w-6xl w-full space-y-12 md:space-y-32 z-10 mb-12 md:mb-0">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.3, rotate: -90 }}
-          whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 1.5, delay: 0.2, type: "spring", bounce: 0.4 }}
-          className="w-20 h-20 md:w-36 md:h-36 bg-green-500 rounded-[1.8rem] md:rounded-[3.5rem] mx-auto flex items-center justify-center text-black text-4xl md:text-7xl font-black shadow-[0_0_60px_rgba(34,197,94,0.3)]"
-        >
-          S
-        </motion.div>
+      {/* Background glow */}
+      <motion.div 
+        animate={{ opacity: [0.1, 0.2, 0.1], scale: [1, 1.1, 1] }}
+        transition={{ duration: 4, repeat: Infinity }}
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[150%] h-[50%] sm:h-[60%] bg-green-500/15 blur-[120px] sm:blur-[150px] rounded-full pointer-events-none" 
+      />
 
-        <div className="space-y-6 md:space-y-12">
-          <motion.h2
-            initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 1.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl sm:text-7xl md:text-[140px] font-black tracking-tighter leading-[1] md:leading-[0.9]"
-          >
-            The future is <br/>
-            <span className="text-green-500">Waitlisting.</span>
-          </h2>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.8, duration: 1.5 }}
-            className="text-lg md:text-4xl text-white/30 font-light max-w-4xl mx-auto px-4"
-          >
-            2025 was the year we built the engine. <br className="hidden md:block" />
-            2026 is the year we start the revolution.
-          </motion.p>
-        </div>
+      {/* Top glow accent */}
+      <motion.div
+        animate={{ opacity: [0.05, 0.1, 0.05] }}
+        transition={{ duration: 3, repeat: Infinity }}
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-64 h-64 bg-green-500/10 blur-[100px] rounded-full pointer-events-none"
+      />
 
-        <motion.div 
+      <div className="max-w-4xl z-10 space-y-8 sm:space-y-10 md:space-y-16 px-2">
+        {/* Main text */}
+        <motion.p
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 1.2, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col md:flex-row gap-4 md:gap-8 justify-center items-center pt-4"
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-light text-white/60"
         >
-          <button className="w-full md:w-auto px-10 py-5 md:px-20 md:py-7 bg-white text-black text-lg md:text-2xl font-black rounded-full hover:scale-105 transition-all shadow-2xl uppercase tracking-tighter active:scale-95">
-            Join the Waitlist
-          </button>
-          <button className="w-full md:w-auto px-10 py-5 md:px-20 md:py-7 bg-transparent border-2 border-white/10 text-white text-lg md:text-2xl font-black rounded-full hover:border-green-500 hover:text-green-500 transition-all uppercase tracking-tighter backdrop-blur-sm active:scale-95">
-            The Roadmap
+          This was SendRight in 2025.
+        </motion.p>
+
+        {/* CTA Button */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ 
+            duration: 0.8, 
+            delay: 0.4,
+            type: "spring",
+            bounce: 0.4
+          }}
+        >
+          <button className="px-8 py-4 sm:px-12 sm:py-6 md:px-16 md:py-7 bg-gradient-to-r from-green-400 to-emerald-600 text-black text-base sm:text-xl md:text-2xl font-black rounded-full hover:scale-105 hover:shadow-[0_0_60px_rgba(34,197,94,0.5)] transition-all shadow-[0_0_40px_rgba(34,197,94,0.3)] active:scale-95">
+            Explore SendRight
           </button>
         </motion.div>
-        
-        <motion.p 
+
+        {/* Footer */}
+        <motion.p
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 0.2 }}
+          whileInView={{ opacity: 0.4 }}
           viewport={{ once: true }}
-          transition={{ delay: 2.2, duration: 2 }}
-          className="text-[10px] uppercase font-black tracking-[0.5em] text-white pt-8 md:hidden"
+          transition={{ delay: 1, duration: 1 }}
+          className="text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] text-white/30 pt-4 sm:pt-8"
         >
-          SendRight 2026 / Leading the Evolution
+          sendright.app
         </motion.p>
       </div>
     </section>

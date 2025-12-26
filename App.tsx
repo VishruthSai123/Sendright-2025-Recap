@@ -4,18 +4,23 @@ import { motion, useScroll, useSpring } from 'framer-motion';
 import Hero from './components/Hero';
 import Problem from './components/Problem';
 import Shift from './components/Shift';
-import ProductShowcase from './components/ProductShowcase';
+import AppSwitchingPain from './components/AppSwitchingPain';
+import BeforeAfter from './components/BeforeAfter';
+import ContextVsBasic from './components/ContextVsBasic';
+import ToneIntelligence from './components/ToneIntelligence';
+import TechReveal from './components/TechReveal';
 import ImpactStats from './components/ImpactStats';
-import Snapshots from './components/Snapshots';
+import GlobalReach from './components/GlobalReach';
 import UseCases from './components/UseCases';
+import PrivacyFirst from './components/PrivacyFirst';
 import Philosophy from './components/Philosophy';
+import MilestoneTimeline from './components/MilestoneTimeline';
+import WaitlistCounter from './components/WaitlistCounter';
+import GradientText from './components/GradientText';
+import ScrambleText from './components/ScrambleText';
 import FutureReady from './components/FutureReady';
 import FinalCTA from './components/FinalCTA';
-import Navbar from './components/Navbar';
-import Snowfall from './components/Snowfall';
 import BackgroundMusic from './components/BackgroundMusic';
-import ScrollManager from './components/ScrollManager';
-import LiveBackground from './components/LiveBackground';
 
 const App: React.FC = () => {
   const { scrollYProgress } = useScroll();
@@ -26,41 +31,38 @@ const App: React.FC = () => {
   });
 
   return (
-    <div className="relative bg-[#050505] selection:bg-green-500 selection:text-black min-h-screen w-full overflow-hidden">
-      {/* Scroll Pacing Manager */}
-      <ScrollManager />
-
+    <div className="relative bg-[#050505] selection:bg-green-500 selection:text-black">
       {/* Scroll Progress Bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1.5 bg-green-500 origin-left z-50 shadow-[0_0_15px_rgba(34,197,94,0.5)]"
+        className="fixed top-0 left-0 right-0 h-1 bg-green-500 origin-left z-50"
         style={{ scaleX }}
       />
 
-      <Navbar />
-
-      <main className="relative z-10">
-        <Hero />
-        <Problem />
-        <Shift />
-        <Snapshots />
-        <ProductShowcase />
-        <ImpactStats />
-        <UseCases />
-        <Philosophy />
-        <FutureReady />
-        <FinalCTA />
+      {/* Main Content - Scroll Snap Container */}
+      <main className="snap-y snap-mandatory h-screen overflow-y-auto overflow-x-hidden">
+        <div className="snap-start"><Hero /></div>
+        <div className="snap-start"><Problem /></div>
+        <div className="snap-start"><Shift /></div>
+        <div className="snap-start"><AppSwitchingPain /></div>
+        <div className="snap-start"><BeforeAfter /></div>
+        <div className="snap-start"><ContextVsBasic /></div>
+        <div className="snap-start"><ToneIntelligence /></div>
+        <div className="snap-start"><TechReveal /></div>
+        <div className="snap-start"><ImpactStats /></div>
+        <div className="snap-start"><PrivacyFirst /></div>
+        <div className="snap-start"><GlobalReach /></div>
+        <div className="snap-start"><UseCases /></div>
+        <div className="snap-start"><Philosophy /></div>
+        <div className="snap-start"><GradientText /></div>
+        <div className="snap-start"><ScrambleText /></div>
+        <div className="snap-start"><MilestoneTimeline /></div>
+        <div className="snap-start"><WaitlistCounter /></div>
+        <div className="snap-start"><FutureReady /></div>
+        <div className="snap-start"><FinalCTA /></div>
       </main>
 
       {/* Audio Controller */}
       <BackgroundMusic />
-
-      {/* Live Animated Background Layers */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <LiveBackground />
-        
-        {/* Persistent Snowfall Effect on top of live background for depth */}
-        <Snowfall />
-      </div>
     </div>
   );
 };
