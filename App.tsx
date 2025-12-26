@@ -27,6 +27,107 @@ export const MusicContext = React.createContext<{
   fadeOutAndStop: () => void;
 }>({ fadeOutAndStop: () => {} });
 
+// Detect in-app browsers
+const isInstagramBrowser = /Instagram/.test(navigator.userAgent);
+const isFacebookBrowser = /FBAN|FBAV/.test(navigator.userAgent);
+const isInAppBrowser = isInstagramBrowser || isFacebookBrowser;
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+const isAndroid = /Android/.test(navigator.userAgent);
+
+// In-App Browser Redirect Component
+const InAppBrowserPrompt: React.FC = () => {
+  const [dismissed, setDismissed] = useState(false);
+  const currentUrl = window.location.href;
+
+  const openInExternalBrowser = () => {
+    if (isAndroid) {
+      // Android: Use intent to open in Chrome/default browser
+      const intentUrl = `intent://${currentUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`;
+      window.location.href = intentUrl;
+      
+      // Fallback: Try opening directly after a delay
+      setTimeout(() => {
+        window.open(currentUrl, '_system');
+      }, 500);
+    } else if (isIOS) {
+      // iOS: Can't force external browser, but we can try x-safari scheme
+      // This doesn't always work, so we show instructions
+      window.location.href = `x-safari-${currentUrl}`;
+    }
+  };
+
+  if (dismissed) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="fixed inset-0 z-[1000] bg-[#050505] flex flex-col items-center justify-center p-6 text-center"
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 0.1 }}
+        className="max-w-sm w-full"
+      >
+        {/* Icon */}
+        <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
+          <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </div>
+
+        <h2 className="text-2xl font-bold text-white mb-3">
+          Open in Browser
+        </h2>
+        
+        <p className="text-white/60 mb-6 text-sm leading-relaxed">
+          {isIOS 
+            ? "For the best experience with music and sharing features, please open this in Safari."
+            : "For the best experience with music and sharing features, please open this in Chrome."
+          }
+        </p>
+
+        {isIOS ? (
+          // iOS Instructions
+          <div className="space-y-4">
+            <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-left">
+              <p className="text-white/80 text-sm">
+                <span className="text-green-400 font-bold">1.</span> Tap the <span className="text-white font-semibold">•••</span> menu at the bottom right
+              </p>
+              <p className="text-white/80 text-sm mt-2">
+                <span className="text-green-400 font-bold">2.</span> Select <span className="text-white font-semibold">"Open in Safari"</span>
+              </p>
+            </div>
+            <button
+              onClick={() => setDismissed(true)}
+              className="w-full py-3 bg-white/10 text-white rounded-xl font-medium hover:bg-white/20 transition-colors"
+            >
+              Continue Anyway
+            </button>
+          </div>
+        ) : (
+          // Android - Can auto-redirect
+          <div className="space-y-3">
+            <button
+              onClick={openInExternalBrowser}
+              className="w-full py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-bold text-lg shadow-lg shadow-green-500/25 hover:shadow-green-500/40 transition-all"
+            >
+              Open in Chrome
+            </button>
+            <button
+              onClick={() => setDismissed(true)}
+              className="w-full py-3 bg-white/10 text-white/70 rounded-xl font-medium hover:bg-white/20 transition-colors"
+            >
+              Continue Anyway
+            </button>
+          </div>
+        )}
+      </motion.div>
+    </motion.div>
+  );
+};
+
 const App: React.FC = () => {
   const [hasStarted, setHasStarted] = useState(false);
   const [musicStopped, setMusicStopped] = useState(false);
@@ -95,6 +196,9 @@ const App: React.FC = () => {
   return (
     <MusicContext.Provider value={{ fadeOutAndStop }}>
       <div className="relative bg-[#050505] selection:bg-green-500 selection:text-black">
+        {/* In-App Browser Prompt */}
+        {isInAppBrowser && <InAppBrowserPrompt />}
+
         {/* Audio element - no loop */}
         <audio
           ref={audioRef}
