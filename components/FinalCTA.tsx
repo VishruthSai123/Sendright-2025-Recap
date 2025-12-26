@@ -78,7 +78,17 @@ ${APP_LINK}`;
   ];
 
   const handleInstall = () => {
+    fadeOutAndStop();
     window.open(APP_LINK, '_blank');
+  };
+
+  const handleSocialClick = () => {
+    fadeOutAndStop();
+  };
+
+  const handleShareStory = () => {
+    fadeOutAndStop();
+    setIsStoryModalOpen(true);
   };
 
   return (
@@ -158,6 +168,7 @@ ${APP_LINK}`;
                 href={social.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={handleSocialClick}
                 initial={{ opacity: 0, scale: 0 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
@@ -183,7 +194,7 @@ ${APP_LINK}`;
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            onClick={() => setIsStoryModalOpen(true)}
+            onClick={handleShareStory}
             className="group px-8 py-3 sm:px-10 sm:py-4 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white text-sm sm:text-base md:text-lg font-bold rounded-full hover:shadow-[0_0_40px_rgba(236,72,153,0.4)] transition-all shadow-[0_0_25px_rgba(236,72,153,0.25)] flex items-center justify-center gap-2 mx-auto"
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
