@@ -1,11 +1,13 @@
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { HiArrowDownTray, HiSparkles } from 'react-icons/hi2';
 import ShareStoryModal from './ShareStoryModal';
+import { MusicContext } from '../App';
 
 const FinalCTA: React.FC = () => {
   const [isStoryModalOpen, setIsStoryModalOpen] = useState(false);
+  const { fadeOutAndStop } = useContext(MusicContext);
   const APP_LINK = "https://play.google.com/store/apps/details?id=com.vishruth.key1&hl=en_IN";
   
   const shareText = `I'm a SendRight user and it's a game-changer!
