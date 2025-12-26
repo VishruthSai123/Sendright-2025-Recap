@@ -91,90 +91,186 @@ const ShareStoryModal: React.FC<ShareStoryModalProps> = ({ isOpen, onClose }) =>
     }
   };
 
-  // Download image - optimized for mobile
+  // Detect if we're in an in-app browser (Instagram, Facebook, etc.)
+  const isInstagramBrowserLocal = /Instagram/.test(navigator.userAgent);
+  const isFacebookBrowserLocal = /FBAN|FBAV/.test(navigator.userAgent);
+  const isInAppBrowserLocal = isInstagramBrowserLocal || isFacebookBrowserLocal;
+
+  // Download image - optimized for mobile gallery save
   const downloadImage = async (): Promise<boolean> => {
     try {
       const response = await fetch(IMAGE_PATH);
       if (!response.ok) throw new Error('Failed to fetch image');
       
       const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
+      const dataUrl = await blobToDataUrl(blob);
 
-      if (isIOS) {
-        // iOS: Open image in new tab for long-press save
-        const link = document.createElement('a');
-        link.href = url;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        setTimeout(() => URL.revokeObjectURL(url), 60000);
+      // For in-app browsers (Instagram, Facebook) - show overlay with image
+      // These browsers often block downloads, so we show the image for screenshot/long-press
+      if (isInAppBrowserLocal || isIOS) {
+        // Create a full-page image view that user can long-press to save
+        const overlay = document.createElement('div');
+        overlay.id = 'save-overlay';
+        overlay.style.cssText = `
+          position: fixed;
+          inset: 0;
+          z-index: 9999;
+          background: rgba(0,0,0,0.95);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+          -webkit-touch-callout: default;
+        `;
+        
+        const instruction = isInstagramBrowserLocal 
+          ? '📸 Long-press image → <strong>"Save to Photos"</strong><br><small>Then go back to Instagram to share!</small>'
+          : '📸 Long-press the image and tap <strong>"Add to Photos"</strong>';
+        
+        overlay.innerHTML = `
+          <p style="color: white; font-size: 14px; margin-bottom: 16px; text-align: center; line-height: 1.5;">
+            ${instruction}
+          </p>
+          <img src="${dataUrl}" style="max-width: 90%; max-height: 65vh; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); -webkit-touch-callout: default;" />
+          <button id="save-overlay-close" style="
+            margin-top: 20px;
+            padding: 12px 32px;
+            background: #22c55e;
+            color: white;
+            border: none;
+            border-radius: 100px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+          ">Done</button>
+        `;
+        
+        document.body.appendChild(overlay);
+        
+        // Close button handler
+        document.getElementById('save-overlay-close')?.addEventListener('click', () => {
+          overlay.remove();
+        });
+        
+        // Also close on overlay background click (but not on image)
+        overlay.addEventListener('click', (e) => {
+          if (e.target === overlay) {
+            overlay.remove();
+          }
+        });
+        
         return true;
       }
-      
-      // Android & Desktop: Trigger download
+
+      // Method for Desktop/Android regular browser: Try File System API first
+      if ('showSaveFilePicker' in window) {
+        try {
+          const handle = await (window as any).showSaveFilePicker({
+            suggestedName: 'sendright-2025.png',
+            types: [{
+              description: 'PNG Image',
+              accept: { 'image/png': ['.png'] }
+            }]
+          });
+          const writable = await handle.createWritable();
+          await writable.write(blob);
+          await writable.close();
+          return true;
+        } catch (fsErr: any) {
+          if (fsErr.name === 'AbortError') {
+            return false;
+          }
+          // Fall through to link download
+        }
+      }
+
+      // Fallback: Use data URL download link
       const link = document.createElement('a');
-      link.href = url;
+      link.href = dataUrl;
       link.download = 'sendright-2025.png';
-      link.style.display = 'none';
+      link.style.cssText = 'position:fixed;left:-9999px;top:-9999px;';
       document.body.appendChild(link);
       link.click();
       
       setTimeout(() => {
         document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-      }, 1000);
+      }, 100);
       
       return true;
+      
     } catch (err) {
       console.error('Download failed:', err);
       return false;
     }
   };
 
+  // Helper to convert blob to data URL
+  const blobToDataUrl = (blob: Blob): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  };
+
+  // Detect if we're in Instagram's in-app browser
+  const isInstagramBrowser = /Instagram/.test(navigator.userAgent);
+  const isFacebookBrowser = /FBAN|FBAV/.test(navigator.userAgent);
+  const isInAppBrowser = isInstagramBrowser || isFacebookBrowser;
+
   // Try to open Instagram with multiple methods
   const openInstagram = async () => {
     // Copy link before attempting to open Instagram
     await copyToClipboard(APP_LINK);
     
+    // If we're already in Instagram's browser, just show a message
+    if (isInstagramBrowser) {
+      showToast('📋 Link copied! Go back to Instagram and create a story.');
+      return;
+    }
+    
     if (isIOS) {
-      // iOS: Use instagram:// scheme
-      window.location.href = 'instagram://library?LocalIdentifier=0';
+      // iOS: Use instagram:// scheme to open story camera
+      window.location.href = 'instagram://story-camera';
       
-      // Fallback to Instagram web after delay
+      // Fallback after delay
       setTimeout(() => {
         if (document.visibilityState === 'visible') {
-          window.open('https://www.instagram.com/create/story', '_blank');
+          // Try opening Instagram app
+          window.location.href = 'instagram://';
+          setTimeout(() => {
+            if (document.visibilityState === 'visible') {
+              showToast('📋 Open Instagram manually and add from gallery');
+            }
+          }, 1000);
         }
       }, 1500);
     } else if (isAndroid) {
-      // Android: Try multiple methods
-      
-      // Method 1: Simple instagram scheme (most compatible)
-      const opened = tryOpenUrl('instagram://library');
-      
-      if (!opened) {
-        // Method 2: Direct Play Store or Instagram web
+      // Android: Try intent URL which is more reliable
+      try {
+        // Try to open Instagram story camera directly
+        window.location.href = 'intent://story-camera#Intent;package=com.instagram.android;scheme=instagram;end';
+        
+        // Fallback after delay
         setTimeout(() => {
           if (document.visibilityState === 'visible') {
-            window.open('https://www.instagram.com/create/story', '_blank');
+            // Try simple instagram scheme
+            window.location.href = 'instagram://';
+            setTimeout(() => {
+              if (document.visibilityState === 'visible') {
+                showToast('📋 Open Instagram manually and add from gallery');
+              }
+            }, 1000);
           }
         }, 1500);
+      } catch {
+        showToast('📋 Open Instagram manually and add from gallery');
       }
     } else {
       // Desktop: Open Instagram web
-      window.open('https://www.instagram.com/create/story', '_blank');
-    }
-  };
-
-  // Helper to try opening a URL
-  const tryOpenUrl = (url: string): boolean => {
-    try {
-      window.location.href = url;
-      return true;
-    } catch {
-      return false;
+      window.open('https://www.instagram.com/', '_blank');
     }
   };
 
@@ -191,6 +287,14 @@ const ShareStoryModal: React.FC<ShareStoryModalProps> = ({ isOpen, onClose }) =>
       
       const blob = await response.blob();
       const file = new File([blob], 'sendright-2025.png', { type: 'image/png' });
+
+      // If in Instagram browser, Web Share API might work differently
+      // We should prioritize downloading the image first
+      if (isInstagramBrowser) {
+        // In Instagram browser, download image and copy link
+        await handleFallback();
+        return;
+      }
 
       // Check if Web Share API with files is supported
       const canShareFiles = navigator.share && navigator.canShare && navigator.canShare({ files: [file] });
@@ -254,12 +358,18 @@ const ShareStoryModal: React.FC<ShareStoryModalProps> = ({ isOpen, onClose }) =>
     
     setStatus('downloaded');
     
-    // Show appropriate toast message
-    if (isIOS) {
+    // Show appropriate toast message based on browser type
+    if (isInstagramBrowser) {
       if (copySuccess) {
-        showToast('📸 Image opened! Long-press to save. Link copied! ✓');
+        showToast('📸 Save image & go back to Instagram! Link copied! ✓');
       } else {
-        showToast('📸 Image opened! Long-press to save it.');
+        showToast('📸 Save the image, then go back to Instagram!');
+      }
+    } else if (isIOS || isInAppBrowserLocal) {
+      if (copySuccess) {
+        showToast('📸 Long-press image to save! Link copied! ✓');
+      } else {
+        showToast('📸 Long-press the image to save to Photos!');
       }
     } else if (downloadSuccess && copySuccess) {
       showToast('✓ Image saved & link copied! Open Instagram to share.');
