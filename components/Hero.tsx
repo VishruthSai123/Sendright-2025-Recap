@@ -7,18 +7,29 @@ const Hero: React.FC = () => {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.2, delayChildren: 0.2 }
+      transition: { staggerChildren: 0.15, delayChildren: 0.3 }
     }
   };
 
   const item = {
-    hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
+    hidden: { opacity: 0, y: 50, rotateX: 90, filter: "blur(10px)" },
     show: { 
       opacity: 1, 
       y: 0,
+      rotateX: 0,
       filter: "blur(0px)",
-      transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } 
+      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } 
     }
+  };
+
+  // Letter stagger animation for main title
+  const letterContainer = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { staggerChildren: 0.03, delayChildren: 0.5 } }
+  };
+  const letter = {
+    hidden: { opacity: 0, y: 50, rotateZ: -10 },
+    show: { opacity: 1, y: 0, rotateZ: 0, transition: { type: "spring", damping: 12, stiffness: 200 } }
   };
 
   // Floating particles
@@ -112,12 +123,18 @@ const Hero: React.FC = () => {
           <span className="text-green-500 text-xs sm:text-sm font-semibold tracking-wider uppercase">Year in Review</span>
         </motion.div>
 
-        {/* Main Title */}
+        {/* Main Title - Letter by letter */}
         <motion.h1 
-          variants={item}
-          className="text-[15vw] sm:text-[12vw] md:text-[10vw] font-black leading-[0.9] tracking-tighter bg-gradient-to-b from-white via-white to-white/50 bg-clip-text text-transparent"
+          variants={letterContainer}
+          initial="hidden"
+          animate="show"
+          className="text-[15vw] sm:text-[12vw] md:text-[10vw] font-black leading-[0.9] tracking-tighter bg-gradient-to-b from-white via-white to-white/50 bg-clip-text text-transparent flex"
         >
-          SendRight
+          {"SendRight".split("").map((char, i) => (
+            <motion.span key={i} variants={letter} style={{ display: 'inline-block' }}>
+              {char}
+            </motion.span>
+          ))}
         </motion.h1>
         
         <motion.h2 

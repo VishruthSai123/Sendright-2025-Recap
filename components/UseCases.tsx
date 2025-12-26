@@ -7,6 +7,19 @@ const UseCases: React.FC = () => {
 
   return (
     <section className="h-screen w-full flex flex-col items-center justify-center text-center px-4 sm:px-6 relative overflow-hidden bg-[#050505]">
+      {/* Animated glow background */}
+      <motion.div
+        animate={{
+          background: [
+            "radial-gradient(circle at 20% 50%, rgba(34,197,94,0.1) 0%, transparent 50%)",
+            "radial-gradient(circle at 80% 50%, rgba(34,197,94,0.1) 0%, transparent 50%)",
+            "radial-gradient(circle at 20% 50%, rgba(34,197,94,0.1) 0%, transparent 50%)"
+          ]
+        }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-0"
+      />
+
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         {[...Array(10)].map((_, i) => (
@@ -21,14 +34,14 @@ const UseCases: React.FC = () => {
       </div>
 
       <div className="max-w-3xl space-y-3 sm:space-y-5 z-10">
-        {/* Rapid-fire lines */}
+        {/* Rapid-fire lines - Staggered slide with blur */}
         {scenarios.map((text, i) => (
           <motion.p
             key={i}
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, x: i % 2 === 0 ? -80 : 80, filter: "blur(10px)", skewX: i % 2 === 0 ? 10 : -10 }}
+            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)", skewX: 0 }}
             viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.4, delay: i * 0.12 }}
+            transition={{ duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl sm:text-3xl md:text-5xl font-light text-white/50"
           >
             {text}

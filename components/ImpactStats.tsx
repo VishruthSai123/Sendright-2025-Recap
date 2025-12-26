@@ -54,12 +54,12 @@ const ImpactStats: React.FC = () => {
       </div>
 
       <div className="max-w-4xl space-y-8 sm:space-y-12 md:space-y-20 z-10">
-        {/* Stats that count up */}
+        {/* Stats that count up - Explosive zoom */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, scale: 0.3, rotate: -10 }}
+          whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
           viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8, type: "spring", stiffness: 100, damping: 15 }}
           className="space-y-2 sm:space-y-4"
         >
           <p className="text-[22vw] sm:text-[18vw] md:text-[12vw] font-black leading-none bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
@@ -71,11 +71,12 @@ const ImpactStats: React.FC = () => {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, rotateY: 90, scale: 0.8 }}
+          whileInView={{ opacity: 1, rotateY: 0, scale: 1 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           className="space-y-2 sm:space-y-4"
+          style={{ perspective: "1000px" }}
         >
           <p className="text-[18vw] sm:text-[14vw] md:text-[10vw] font-black leading-none text-white">
             <Counter value={2} suffix="h" />

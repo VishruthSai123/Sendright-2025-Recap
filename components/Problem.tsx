@@ -7,6 +7,19 @@ const Problem: React.FC = () => {
 
   return (
     <section className="h-screen w-full flex flex-col items-center justify-center text-center px-4 sm:px-6 relative overflow-hidden bg-[#050505]">
+      {/* Animated glow background */}
+      <motion.div
+        animate={{
+          background: [
+            "radial-gradient(circle at 50% 30%, rgba(34,197,94,0.1) 0%, transparent 50%)",
+            "radial-gradient(circle at 50% 70%, rgba(34,197,94,0.08) 0%, transparent 50%)",
+            "radial-gradient(circle at 50% 30%, rgba(34,197,94,0.1) 0%, transparent 50%)"
+          ]
+        }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-0"
+      />
+
       {/* Background particles */}
       <div className="absolute inset-0 pointer-events-none">
         {[...Array(15)].map((_, i) => (
@@ -43,18 +56,30 @@ const Problem: React.FC = () => {
         </p>
       </motion.div>
 
-      {/* Word-by-word animation */}
+      {/* Word-by-word animation - Elastic bounce from different directions */}
       <div className="flex flex-wrap justify-center gap-x-2 sm:gap-x-3 gap-y-1 md:gap-x-5 px-4 max-w-3xl">
         {words.map((word, i) => (
           <motion.span
             key={i}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ 
+              opacity: 0, 
+              scale: 0,
+              rotate: i % 2 === 0 ? -15 : 15,
+              x: i % 2 === 0 ? -30 : 30
+            }}
+            whileInView={{ 
+              opacity: 1, 
+              scale: 1,
+              rotate: 0,
+              x: 0
+            }}
             viewport={{ once: true, amount: 0.5 }}
             transition={{ 
-              duration: 0.6, 
-              delay: 0.8 + (i * 0.15),
-              ease: [0.16, 1, 0.3, 1]
+              duration: 0.8, 
+              delay: 0.8 + (i * 0.12),
+              type: "spring",
+              stiffness: 200,
+              damping: 15
             }}
             className="text-xl sm:text-2xl md:text-5xl font-light text-white/60"
           >

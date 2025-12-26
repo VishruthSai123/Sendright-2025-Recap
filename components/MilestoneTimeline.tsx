@@ -14,6 +14,19 @@ const MilestoneTimeline: React.FC = () => {
 
   return (
     <section className="h-screen w-full flex flex-col items-center justify-center text-center px-4 sm:px-6 relative overflow-hidden bg-[#050505]">
+      {/* Animated glow background */}
+      <motion.div
+        animate={{
+          background: [
+            "radial-gradient(circle at 30% 50%, rgba(34,197,94,0.1) 0%, transparent 50%)",
+            "radial-gradient(circle at 70% 50%, rgba(34,197,94,0.1) 0%, transparent 50%)",
+            "radial-gradient(circle at 30% 50%, rgba(34,197,94,0.1) 0%, transparent 50%)"
+          ]
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-0"
+      />
+
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         {[...Array(10)].map((_, i) => (
@@ -28,15 +41,31 @@ const MilestoneTimeline: React.FC = () => {
       </div>
 
       <div className="max-w-lg sm:max-w-3xl w-full z-10">
-        {/* Headline */}
+        {/* Headline - Split words fly in */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.5 }}
           className="mb-6 sm:mb-10"
         >
-          <span className="text-2xl sm:text-4xl md:text-6xl font-black">Our 2025 </span>
-          <span className="text-2xl sm:text-4xl md:text-6xl font-black bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">Journey</span>
+          <motion.span 
+            initial={{ x: -100, opacity: 0, rotate: -15 }}
+            whileInView={{ x: 0, opacity: 1, rotate: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, type: "spring", stiffness: 80 }}
+            className="text-2xl sm:text-4xl md:text-6xl font-black inline-block"
+          >
+            Our 2025{" "}
+          </motion.span>
+          <motion.span 
+            initial={{ x: 100, opacity: 0, scale: 0.5 }}
+            whileInView={{ x: 0, opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.2, type: "spring", stiffness: 80 }}
+            className="text-2xl sm:text-4xl md:text-6xl font-black bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent inline-block"
+          >
+            Journey
+          </motion.span>
         </motion.div>
 
         {/* Timeline - Compact grid on mobile */}

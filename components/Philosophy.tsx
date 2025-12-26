@@ -11,6 +11,19 @@ const Philosophy: React.FC = () => {
 
   return (
     <section className="h-screen w-full flex flex-col items-center justify-center text-center px-4 sm:px-6 relative overflow-hidden bg-[#050505]">
+      {/* Animated glow background */}
+      <motion.div
+        animate={{
+          background: [
+            "radial-gradient(circle at 50% 40%, rgba(34,197,94,0.12) 0%, transparent 55%)",
+            "radial-gradient(circle at 50% 60%, rgba(34,197,94,0.12) 0%, transparent 55%)",
+            "radial-gradient(circle at 50% 40%, rgba(34,197,94,0.12) 0%, transparent 55%)"
+          ]
+        }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-0"
+      />
+
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         {[...Array(8)].map((_, i) => (
@@ -28,10 +41,16 @@ const Philosophy: React.FC = () => {
         {statements.map((text, i) => (
           <motion.p
             key={i}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, scale: 0.5, y: 40, filter: "blur(15px)" }}
+            whileInView={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
             viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 1, delay: i * 0.5 }}
+            transition={{ 
+              duration: 0.8, 
+              delay: i * 0.3,
+              type: "spring",
+              stiffness: 100,
+              damping: 15
+            }}
             className={`text-xl sm:text-3xl md:text-5xl font-black tracking-tight leading-tight ${
               i === 2 ? 'bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent' : 'text-white'
             }`}

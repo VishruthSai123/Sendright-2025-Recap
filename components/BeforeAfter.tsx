@@ -25,12 +25,12 @@ const BeforeAfter: React.FC = () => {
       </div>
 
       <div className="max-w-5xl w-full space-y-8 sm:space-y-12 md:space-y-16 z-10 px-2">
-        {/* Before - Strike through animation */}
+        {/* Before - Shrink and fade with distortion */}
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, scale: 1.3, filter: "blur(20px)" }}
+          whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
           viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="relative"
         >
           <p className="text-xl sm:text-3xl md:text-5xl lg:text-7xl font-light text-white/30 px-2">

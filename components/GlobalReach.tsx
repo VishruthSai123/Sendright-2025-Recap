@@ -22,16 +22,49 @@ const GlobalReach: React.FC = () => {
         <div className="absolute w-[180px] sm:w-[300px] h-[180px] sm:h-[300px] rounded-full border border-green-500/20" />
       </motion.div>
 
+      {/* Floating particles */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {[...Array(18)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-green-500/30 rounded-full"
+            style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%` }}
+            animate={{ 
+              y: [0, -20, 0],
+              x: [0, Math.random() * 20 - 10, 0],
+              opacity: [0.2, 0.4, 0.2]
+            }}
+            transition={{ duration: 5 + Math.random() * 3, repeat: Infinity, delay: Math.random() * 2 }}
+          />
+        ))}
+      </div>
+
       <div className="max-w-lg sm:max-w-2xl z-10 space-y-6 sm:space-y-8">
-        {/* Headline */}
+        {/* Headline - Spiral in from edges */}
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.8 }}
           className="text-2xl sm:text-4xl md:text-6xl font-black tracking-tight"
         >
-          Global by <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">Design.</span>
+          <motion.span
+            initial={{ opacity: 0, x: -100, rotate: -20 }}
+            whileInView={{ opacity: 1, x: 0, rotate: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, type: "spring", stiffness: 100 }}
+            className="inline-block"
+          >
+            Global by{" "}
+          </motion.span>
+          <motion.span
+            initial={{ opacity: 0, scale: 2, filter: "blur(20px)" }}
+            whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="inline-block bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent"
+          >
+            Design.
+          </motion.span>
         </motion.h2>
 
         {/* Globe Icons */}

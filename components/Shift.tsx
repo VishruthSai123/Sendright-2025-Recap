@@ -15,25 +15,42 @@ const Shift: React.FC = () => {
         }}
       />
 
-      <div className="max-w-4xl space-y-8 sm:space-y-10 md:space-y-16 z-10 px-2">
-        {/* Line 1 - slides from left */}
+      {/* Floating particles */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {[...Array(15)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-green-500/30 rounded-full"
+            style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%` }}
+            animate={{ 
+              y: [0, -30, 0],
+              opacity: [0.2, 0.5, 0.2],
+              scale: [1, 1.5, 1]
+            }}
+            transition={{ duration: 4 + Math.random() * 3, repeat: Infinity, delay: Math.random() * 2 }}
+          />
+        ))}
+      </div>
+
+      <div className="max-w-6xl space-y-6 sm:space-y-8 md:space-y-12 z-10 px-2">
+        {/* Line 1 - Slide from left */}
         <motion.h2
-          initial={{ opacity: 0, x: -60 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter"
+          initial={{ x: -100, opacity: 0, filter: "blur(10px)" }}
+          whileInView={{ x: 0, opacity: 1, filter: "blur(0px)" }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none text-white"
         >
           AI changed how
         </motion.h2>
         
-        {/* Line 2 - slides from right */}
+        {/* Line 2 - Slide from right */}
         <motion.h2
-          initial={{ opacity: 0, x: 60 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent"
+          initial={{ x: 100, opacity: 0, filter: "blur(10px)" }}
+          whileInView={{ x: 0, opacity: 1, filter: "blur(0px)" }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent"
         >
           we create.
         </motion.h2>
@@ -42,9 +59,9 @@ const Shift: React.FC = () => {
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="text-lg sm:text-xl md:text-3xl font-light text-white/40 mt-4 sm:mt-6"
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="text-xl sm:text-2xl md:text-4xl font-light text-white/40 mt-6 sm:mt-8"
         >
           But typing stayed the same.
         </motion.p>

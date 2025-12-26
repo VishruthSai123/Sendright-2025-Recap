@@ -18,13 +18,30 @@ const GradientText: React.FC = () => {
         className="absolute inset-0"
       />
 
+      {/* Floating particles */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {[...Array(15)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-green-500/30 rounded-full"
+            style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%` }}
+            animate={{ 
+              y: [0, -25, 0],
+              opacity: [0.2, 0.5, 0.2],
+              scale: [1, 1.5, 1]
+            }}
+            transition={{ duration: 4 + Math.random() * 3, repeat: Infinity, delay: Math.random() * 2 }}
+          />
+        ))}
+      </div>
+
       <div className="max-w-lg sm:max-w-3xl z-10 space-y-4 sm:space-y-6">
         <motion.h2
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, scaleX: 0, filter: "blur(10px)" }}
+          whileInView={{ opacity: 1, scaleX: 1, filter: "blur(0px)" }}
           viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.8 }}
-          className="text-2xl sm:text-4xl md:text-6xl font-black leading-tight"
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="text-2xl sm:text-4xl md:text-6xl font-black leading-tight origin-left"
         >
           <motion.span
             animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
@@ -37,11 +54,12 @@ const GradientText: React.FC = () => {
         </motion.h2>
 
         <motion.h2
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: -80, rotateX: 45, filter: "blur(15px)" }}
+          whileInView={{ opacity: 1, y: 0, rotateX: 0, filter: "blur(0px)" }}
           viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.8, delay: 0.2, type: "spring", stiffness: 80, damping: 12 }}
           className="text-2xl sm:text-4xl md:text-6xl font-black leading-tight"
+          style={{ perspective: "1000px" }}
         >
           <motion.span
             animate={{ backgroundPosition: ["100% 50%", "0% 50%", "100% 50%"] }}
@@ -54,10 +72,10 @@ const GradientText: React.FC = () => {
         </motion.h2>
 
         <motion.h2
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, scale: 2.5, filter: "blur(20px)" }}
+          whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
           viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.9, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="text-2xl sm:text-4xl md:text-6xl font-black leading-tight text-white"
         >
           <motion.span animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 2, repeat: Infinity }}>

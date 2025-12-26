@@ -48,16 +48,32 @@ const FinalCTA: React.FC = () => {
       />
 
       <div className="max-w-4xl z-10 space-y-8 sm:space-y-10 md:space-y-16 px-2">
-        {/* Main text */}
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+        {/* Main text - Word by word dramatic entrance */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-light text-white/60"
+          className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-light text-white/60 flex flex-wrap justify-center gap-x-2 sm:gap-x-3"
         >
-          This was SendRight in 2025.
-        </motion.p>
+          {"This was SendRight in 2025.".split(" ").map((word, i) => (
+            <motion.span
+              key={i}
+              initial={{ opacity: 0, y: 50, rotateX: -90 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+              viewport={{ once: true }}
+              transition={{ 
+                duration: 0.6, 
+                delay: i * 0.1,
+                type: "spring",
+                stiffness: 100,
+                damping: 15
+              }}
+              style={{ display: "inline-block" }}
+            >
+              {word}
+            </motion.span>
+          ))}
+        </motion.div>
 
         {/* CTA Button */}
         <motion.div

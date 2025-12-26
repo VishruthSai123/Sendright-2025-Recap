@@ -6,6 +6,19 @@ import { HiSparkles } from 'react-icons/hi2';
 const ContextVsBasic: React.FC = () => {
   return (
     <section className="h-screen w-full flex flex-col items-center justify-center text-center px-4 sm:px-6 relative overflow-hidden bg-[#050505]">
+      {/* Animated glow background */}
+      <motion.div
+        animate={{
+          background: [
+            "radial-gradient(circle at 30% 40%, rgba(34,197,94,0.12) 0%, transparent 50%)",
+            "radial-gradient(circle at 70% 60%, rgba(34,197,94,0.12) 0%, transparent 50%)",
+            "radial-gradient(circle at 30% 40%, rgba(34,197,94,0.12) 0%, transparent 50%)"
+          ]
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-0"
+      />
+
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         {[...Array(10)].map((_, i) => (
@@ -19,14 +32,15 @@ const ContextVsBasic: React.FC = () => {
         ))}
       </div>
 
-      <div className="max-w-lg sm:max-w-xl w-full z-10 space-y-4 sm:space-y-6">
-        {/* Headline */}
+      <div className="max-w-lg sm:max-w-xl w-full z-10 space-y-4 sm:space-y-6" style={{ perspective: "1000px" }}>
+        {/* Headline - 3D flip in */}
         <motion.h2
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, rotateX: -90, y: -30 }}
+          whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="text-xl sm:text-3xl md:text-5xl font-black tracking-tight px-2"
+          style={{ transformOrigin: "center top" }}
         >
           Beyond <span className="text-white/30">Next Word</span>
         </motion.h2>

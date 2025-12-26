@@ -47,12 +47,12 @@ const WaitlistCounter: React.FC = () => {
           WAITLIST
         </motion.p>
 
-        {/* Big counter */}
+        {/* Big counter - Explosive entrance */}
         <motion.div
-          initial={{ scale: 0.5, opacity: 0 }}
-          whileInView={{ scale: 1, opacity: 1 }}
+          initial={{ scale: 3, opacity: 0, filter: "blur(30px)" }}
+          whileInView={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
           viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
           <p className="text-[14vw] sm:text-[12vw] md:text-[10vw] font-black leading-none tracking-tighter">
             {formattedCount}
