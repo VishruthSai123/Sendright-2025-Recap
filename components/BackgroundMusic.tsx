@@ -5,21 +5,28 @@ const BackgroundMusic: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [hasInteracted, setHasInteracted] = useState(false);
 
-  // Using a clean, ambient background track
-  const AUDIO_URL = 'https://assets.mixkit.co/music/preview/mixkit-dreamy-surroundings-467.mp3';
+  // Updated to use a local file. 
+  // Please place your 'music.mp3' file in the public/root directory of your project.
+  const AUDIO_URL = './music.mp3';
 
   useEffect(() => {
     const startAudio = () => {
       if (!hasInteracted && audioRef.current) {
-        audioRef.current.play()
-          .then(() => {
-            setHasInteracted(true);
-            // Once playing, we can stop listening for the initial interaction
-            cleanup();
-          })
-          .catch(err => {
-            console.log("Autoplay still restricted by browser. Waiting for next interaction...", err);
-          });
+        // Attempt to play
+        const playPromise = audioRef.current.play();
+        
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              setHasInteracted(true);
+              // Once playing, we can stop listening for the initial interaction
+              cleanup();
+            })
+            .catch(err => {
+              // Autoplay was prevented. This is normal until the user interacts.
+              // We just wait for the next interaction event.
+            });
+        }
       }
     };
 

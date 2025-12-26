@@ -10,7 +10,7 @@ const Shift: React.FC = () => {
           initial={{ opacity: 0, y: 30, scale: 1.05 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
         >
           <h2 className="text-5xl md:text-9xl font-black mb-4 md:mb-6 tracking-tighter">
             The Shift.
@@ -29,7 +29,7 @@ const Shift: React.FC = () => {
               initial={{ opacity: 0, y: 50, rotateX: 20 }}
               whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ delay: i * 0.25, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: 0.3 + (i * 0.25), duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ rotateX: 5, rotateY: -5, scale: 1.05, transition: { duration: 0.4 } }}
               className={`p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] border min-h-[280px] md:h-[350px] flex flex-col justify-center relative overflow-hidden ${item.highlight ? 'border-green-500 bg-green-500/5' : 'border-white/10 bg-white/5'}`}
             >
@@ -49,7 +49,7 @@ const Shift: React.FC = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 1, duration: 1.2 }}
+          transition={{ delay: 1.2, duration: 1.2 }}
           className="pt-8 md:pt-12"
         >
           <p className="text-xl md:text-2xl font-black text-white uppercase tracking-[0.3em]">

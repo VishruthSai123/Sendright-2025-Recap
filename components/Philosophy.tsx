@@ -18,7 +18,7 @@ const Philosophy: React.FC = () => {
             initial={{ clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)", opacity: 0, y: 40 }}
             whileInView={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)", opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.6 }}
-            transition={{ duration: 1.8, delay: i * 0.6, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.8, delay: 0.2 + (i * 0.6), ease: [0.16, 1, 0.3, 1] }}
             className={`text-5xl md:text-8xl font-black leading-tight tracking-tighter ${i === 2 ? 'text-green-500' : 'text-white'}`}
           >
             {text}
@@ -29,7 +29,7 @@ const Philosophy: React.FC = () => {
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 2, duration: 1.2, ease: "circOut" }}
+          transition={{ delay: 2.2, duration: 1.2, ease: "circOut" }}
           className="w-24 h-1 bg-green-500 mx-auto rounded-full mt-12"
         />
         
@@ -37,7 +37,7 @@ const Philosophy: React.FC = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 2.5, duration: 1 }}
+          transition={{ delay: 2.7, duration: 1 }}
           className="text-sm tracking-[0.5em] uppercase text-white/20 font-black"
         >
           Our Core Intent

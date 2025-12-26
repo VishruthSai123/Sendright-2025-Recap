@@ -16,7 +16,7 @@ const FinalCTA: React.FC = () => {
           initial={{ opacity: 0, scale: 0.3, rotate: -90 }}
           whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
           viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 1.5, type: "spring", bounce: 0.4 }}
+          transition={{ duration: 1.5, delay: 0.2, type: "spring", bounce: 0.4 }}
           className="w-20 h-20 md:w-36 md:h-36 bg-green-500 rounded-[1.8rem] md:rounded-[3.5rem] mx-auto flex items-center justify-center text-black text-4xl md:text-7xl font-black shadow-[0_0_60px_rgba(34,197,94,0.3)]"
         >
           S
@@ -27,7 +27,7 @@ const FinalCTA: React.FC = () => {
             initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
             whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl sm:text-7xl md:text-[140px] font-black tracking-tighter leading-[1] md:leading-[0.9]"
           >
             The future is <br/>
@@ -37,7 +37,7 @@ const FinalCTA: React.FC = () => {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.6, duration: 1.5 }}
+            transition={{ delay: 0.8, duration: 1.5 }}
             className="text-lg md:text-4xl text-white/30 font-light max-w-4xl mx-auto px-4"
           >
             2025 was the year we built the engine. <br className="hidden md:block" />
@@ -49,7 +49,7 @@ const FinalCTA: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 1, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ delay: 1.2, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-col md:flex-row gap-4 md:gap-8 justify-center items-center pt-4"
         >
           <button className="w-full md:w-auto px-10 py-5 md:px-20 md:py-7 bg-white text-black text-lg md:text-2xl font-black rounded-full hover:scale-105 transition-all shadow-2xl uppercase tracking-tighter active:scale-95">
@@ -64,7 +64,7 @@ const FinalCTA: React.FC = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 0.2 }}
           viewport={{ once: true }}
-          transition={{ delay: 2, duration: 2 }}
+          transition={{ delay: 2.2, duration: 2 }}
           className="text-[10px] uppercase font-black tracking-[0.5em] text-white pt-8 md:hidden"
         >
           SendRight 2026 / Leading the Evolution

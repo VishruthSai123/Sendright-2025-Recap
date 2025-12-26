@@ -14,7 +14,7 @@ const FutureReady: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 1.2 }}
+          transition={{ duration: 1.2, delay: 0.2 }}
           className="text-5xl md:text-8xl font-black mb-24"
         >
           2026 & <span className="text-green-500">Beyond</span>
@@ -31,7 +31,7 @@ const FutureReady: React.FC = () => {
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.3, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: 0.3 + (i * 0.3), duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
               className="text-left border-l-2 border-green-500/30 pl-8 group hover:border-green-500 transition-colors duration-500"
             >
               <h3 className="text-2xl font-bold mb-4 group-hover:text-green-500 transition-colors">{item.title}</h3>
@@ -44,7 +44,7 @@ const FutureReady: React.FC = () => {
           initial={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
           whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
           viewport={{ once: true }}
-          transition={{ delay: 1, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ delay: 1.2, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
           className="text-3xl md:text-5xl font-bold italic"
         >
           "The keyboard is evolving. <br/>

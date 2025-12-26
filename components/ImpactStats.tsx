@@ -34,7 +34,7 @@ const ImpactStats: React.FC = () => {
           initial={{ opacity: 0, scale: 0.95, y: 30 }}
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="space-y-6"
         >
           <h2 className="text-5xl md:text-8xl font-black tracking-tighter">
@@ -55,7 +55,7 @@ const ImpactStats: React.FC = () => {
               initial={{ opacity: 0, y: 80 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ delay: i * 0.3, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: 0.4 + (i * 0.3), duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
               className="p-16 bg-white/5 border border-white/5 rounded-[4rem] flex flex-col items-center text-center group hover:bg-green-500/5 transition-colors duration-500"
             >
               <div className="text-7xl md:text-[110px] font-black text-white mb-4 group-hover:text-green-500 transition-colors">
@@ -71,7 +71,7 @@ const ImpactStats: React.FC = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 1.5, duration: 1 }}
+          transition={{ delay: 1.8, duration: 1 }}
           className="text-xs text-white/20 font-bold uppercase tracking-[0.4em]"
         >
           Benchmarks based on 2025 global productivity data

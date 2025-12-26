@@ -37,7 +37,7 @@ const Snapshots: React.FC = () => {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="mb-12 md:mb-16 text-center space-y-6 md:space-y-8"
         >
           <h2 className="text-4xl md:text-[100px] font-black uppercase tracking-tighter leading-none">The Build Up</h2>
@@ -53,7 +53,7 @@ const Snapshots: React.FC = () => {
               initial={{ opacity: 0, y: 60, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ delay: i * 0.2, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: 0.3 + (i * 0.2), duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
               className={`group p-6 md:p-10 bg-[#0a0a0a] border border-white/5 rounded-[2rem] md:rounded-[3rem] flex flex-col justify-between hover:border-green-500/40 transition-all duration-700 shadow-xl ${item.size}`}
             >
               <div className="space-y-4 md:space-y-6">
