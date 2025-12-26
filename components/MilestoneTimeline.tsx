@@ -9,7 +9,7 @@ const MilestoneTimeline: React.FC = () => {
     { date: "MAR", event: "Prototype", Icon: HiWrenchScrewdriver },
     { date: "JUN", event: "Beta", Icon: HiRocketLaunch },
     { date: "SEP", event: "100K", Icon: HiFlag },
-    { date: "DEC", event: "2026 Ready", Icon: HiSparkles }
+    { date: "DEC", event: "2025 Ready", Icon: HiSparkles }
   ];
 
   return (

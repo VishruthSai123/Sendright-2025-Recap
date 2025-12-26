@@ -14,7 +14,7 @@ const FinalCTA: React.FC = () => {
 - Context-aware typing that actually understands what I mean
 - 100% private - everything stays on my device
 
-Join 247,000+ users who type smarter, not harder.
+Type smarter, not harder.
 
 Download SendRight now:
 ${APP_LINK}`;
