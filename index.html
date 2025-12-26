@@ -53,6 +53,26 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
+        /* GPU acceleration for all animated elements */
+        .transform-gpu {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+        /* Optimize animations globally */
+        @media (prefers-reduced-motion: no-preference) {
+            * {
+                -webkit-transform: translateZ(0);
+            }
+        }
+        /* Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 <script type="importmap">
 {

@@ -28,8 +28,8 @@ const App: React.FC = () => {
   
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
+    stiffness: 50,
+    damping: 20,
     restDelta: 0.001
   });
 
@@ -64,8 +64,8 @@ const App: React.FC = () => {
         <>
           {/* Scroll Progress Bar */}
           <motion.div
-            className="fixed top-0 left-0 right-0 h-1 bg-green-500 origin-left z-50"
-            style={{ scaleX }}
+            className="fixed top-0 left-0 right-0 h-1 bg-green-500 origin-left z-50 transform-gpu"
+            style={{ scaleX, willChange: 'transform' }}
           />
 
           {/* Main Content - Scroll Snap Container */}

@@ -32,14 +32,14 @@ const Hero: React.FC = () => {
     show: { opacity: 1, y: 0, rotateZ: 0, transition: { type: "spring", damping: 12, stiffness: 200 } }
   };
 
-  // Floating particles
-  const particles = Array.from({ length: 30 }, (_, i) => ({
+  // Floating particles - reduced for performance
+  const particles = Array.from({ length: 18 }, (_, i) => ({
     id: i,
-    size: Math.random() * 4 + 2,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    duration: Math.random() * 10 + 15,
-    delay: Math.random() * 5,
+    size: (i % 4) + 2,
+    x: (i * 6) % 100,
+    y: (i * 11) % 100,
+    duration: 15 + (i % 6) * 2,
+    delay: i % 5,
   }));
 
   return (
@@ -48,15 +48,14 @@ const Hero: React.FC = () => {
       <div className="absolute inset-0 z-0">
         <motion.div 
           animate={{ 
-            background: [
-              "radial-gradient(circle at 50% 50%, rgba(34,197,94,0.2) 0%, transparent 60%)",
-              "radial-gradient(circle at 30% 70%, rgba(34,197,94,0.15) 0%, transparent 60%)",
-              "radial-gradient(circle at 70% 30%, rgba(34,197,94,0.2) 0%, transparent 60%)",
-              "radial-gradient(circle at 50% 50%, rgba(34,197,94,0.2) 0%, transparent 60%)"
-            ]
+            opacity: [0.8, 1, 0.8]
           }}
-          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-          className="absolute inset-0"
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute inset-0 transform-gpu"
+          style={{ 
+            background: "radial-gradient(circle at 50% 50%, rgba(34,197,94,0.2) 0%, transparent 60%)",
+            willChange: 'opacity'
+          }}
         />
         {/* Subtle grid pattern */}
         <div 
@@ -73,19 +72,18 @@ const Hero: React.FC = () => {
         {particles.map((p) => (
           <motion.div
             key={p.id}
-            className="absolute rounded-full bg-green-500"
+            className="absolute rounded-full bg-green-500 transform-gpu"
             style={{
               width: p.size,
               height: p.size,
               left: `${p.x}%`,
               top: `${p.y}%`,
-              opacity: 0.3
+              opacity: 0.3,
+              willChange: 'transform, opacity'
             }}
             animate={{
-              y: [-20, -100, -20],
-              x: [0, Math.random() * 40 - 20, 0],
+              y: [-20, -80, -20],
               opacity: [0.1, 0.4, 0.1],
-              scale: [1, 1.5, 1]
             }}
             transition={{
               duration: p.duration,
@@ -99,14 +97,16 @@ const Hero: React.FC = () => {
 
       {/* Glowing orbs */}
       <motion.div
-        animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/4 left-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-green-500/20 rounded-full blur-[100px] pointer-events-none"
+        animate={{ scale: [1, 1.15, 1], opacity: [0.1, 0.18, 0.1] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/4 left-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-green-500/20 rounded-full blur-[100px] pointer-events-none transform-gpu"
+        style={{ willChange: 'transform, opacity' }}
       />
       <motion.div
-        animate={{ scale: [1.2, 1, 1.2], opacity: [0.1, 0.15, 0.1] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        className="absolute bottom-1/4 right-1/4 w-48 h-48 sm:w-72 sm:h-72 bg-green-500/15 rounded-full blur-[80px] pointer-events-none"
+        animate={{ scale: [1.1, 1, 1.1], opacity: [0.1, 0.14, 0.1] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        className="absolute bottom-1/4 right-1/4 w-48 h-48 sm:w-72 sm:h-72 bg-green-500/15 rounded-full blur-[80px] pointer-events-none transform-gpu"
+        style={{ willChange: 'transform, opacity' }}
       />
 
       <motion.div

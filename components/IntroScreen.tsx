@@ -6,21 +6,22 @@ interface IntroScreenProps {
 }
 
 const IntroScreen: React.FC<IntroScreenProps> = ({ onStart }) => {
-  // Floating particles
-  const particles = Array.from({ length: 25 }, (_, i) => ({
+  // Floating particles - reduced count for performance
+  const particles = Array.from({ length: 15 }, (_, i) => ({
     id: i,
-    size: Math.random() * 4 + 2,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    duration: Math.random() * 10 + 15,
-    delay: Math.random() * 5,
+    size: (i % 4) + 2,
+    x: (i * 7) % 100,
+    y: (i * 13) % 100,
+    duration: 15 + (i % 5) * 2,
+    delay: (i % 5),
   }));
 
   return (
     <motion.section 
-      className="h-screen w-full flex flex-col items-center justify-center text-center px-4 sm:px-6 relative overflow-hidden bg-[#050505] fixed inset-0 z-[100]"
-      exit={{ opacity: 0, scale: 1.1 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className="h-screen w-full flex flex-col items-center justify-center text-center px-4 sm:px-6 relative overflow-hidden bg-[#050505] fixed inset-0 z-[100] transform-gpu"
+      exit={{ opacity: 0, scale: 1.05 }}
+      transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+      style={{ willChange: 'transform, opacity' }}
     >
       {/* Animated Gradient Background */}
       <div className="absolute inset-0 z-0">
@@ -51,19 +52,18 @@ const IntroScreen: React.FC<IntroScreenProps> = ({ onStart }) => {
         {particles.map((p) => (
           <motion.div
             key={p.id}
-            className="absolute rounded-full bg-green-500"
+            className="absolute rounded-full bg-green-500 transform-gpu"
             style={{
               width: p.size,
               height: p.size,
               left: `${p.x}%`,
               top: `${p.y}%`,
-              opacity: 0.3
+              opacity: 0.3,
+              willChange: 'transform, opacity'
             }}
             animate={{
-              y: [-20, -100, -20],
-              x: [0, Math.random() * 40 - 20, 0],
+              y: [-20, -80, -20],
               opacity: [0.1, 0.4, 0.1],
-              scale: [1, 1.5, 1]
             }}
             transition={{
               duration: p.duration,
@@ -77,14 +77,16 @@ const IntroScreen: React.FC<IntroScreenProps> = ({ onStart }) => {
 
       {/* Glowing orbs */}
       <motion.div
-        animate={{ scale: [1, 1.3, 1], opacity: [0.15, 0.3, 0.15] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/3 left-1/3 w-64 h-64 sm:w-96 sm:h-96 bg-green-500/20 rounded-full blur-[120px] pointer-events-none"
+        animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/3 left-1/3 w-64 h-64 sm:w-96 sm:h-96 bg-green-500/20 rounded-full blur-[120px] pointer-events-none transform-gpu"
+        style={{ willChange: 'transform, opacity' }}
       />
       <motion.div
-        animate={{ scale: [1.2, 1, 1.2], opacity: [0.1, 0.2, 0.1] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        className="absolute bottom-1/3 right-1/3 w-48 h-48 sm:w-72 sm:h-72 bg-green-500/15 rounded-full blur-[100px] pointer-events-none"
+        animate={{ scale: [1.1, 1, 1.1], opacity: [0.1, 0.18, 0.1] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        className="absolute bottom-1/3 right-1/3 w-48 h-48 sm:w-72 sm:h-72 bg-green-500/15 rounded-full blur-[100px] pointer-events-none transform-gpu"
+        style={{ willChange: 'transform, opacity' }}
       />
 
       {/* Content */}

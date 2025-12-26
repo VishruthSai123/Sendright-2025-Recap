@@ -82,7 +82,7 @@ const Snowfall: React.FC = () => {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-[1] opacity-60"
-      style={{ mixBlendMode: 'screen' }}
+      style={{ mixBlendMode: 'screen', willChange: 'contents' }}
     />
   );
 };

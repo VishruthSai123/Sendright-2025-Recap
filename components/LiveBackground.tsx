@@ -24,7 +24,8 @@ const LiveBackground: React.FC = () => {
           y: [-20, 20, -20]
         }}
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] bg-green-900/30 blur-[120px] rounded-full mix-blend-screen"
+        className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] bg-green-900/30 blur-[120px] rounded-full mix-blend-screen transform-gpu"
+        style={{ willChange: 'transform, opacity' }}
       />
       <motion.div 
         animate={{ 
@@ -34,19 +35,22 @@ const LiveBackground: React.FC = () => {
           y: [20, -20, 20]
         }}
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute bottom-[-10%] right-[-10%] w-[70vw] h-[70vw] bg-emerald-900/20 blur-[150px] rounded-full mix-blend-screen"
+        className="absolute bottom-[-10%] right-[-10%] w-[70vw] h-[70vw] bg-emerald-900/20 blur-[150px] rounded-full mix-blend-screen transform-gpu"
+        style={{ willChange: 'transform, opacity' }}
       />
 
       {/* 2. Rotating Wireframe Rings (Structural Layer) */}
       <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vw] md:w-[60vw] md:h-[60vw] border border-white/[0.03] rounded-full"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vw] md:w-[60vw] md:h-[60vw] border border-white/[0.03] rounded-full transform-gpu"
         animate={{ rotate: 360 }}
         transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+        style={{ willChange: 'transform' }}
       />
       <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] md:w-[45vw] md:h-[45vw] border border-white/[0.03] rounded-full border-dashed"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] md:w-[45vw] md:h-[45vw] border border-white/[0.03] rounded-full border-dashed transform-gpu"
         animate={{ rotate: -360 }}
         transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
+        style={{ willChange: 'transform' }}
       />
       
       {/* 3. Floating Tech Glyphs (Detail Layer) */}
@@ -70,8 +74,8 @@ interface FloatingGlyphProps {
 const FloatingGlyph: React.FC<FloatingGlyphProps> = ({ x, y, delay, shape }) => {
     return (
         <motion.div
-            className="absolute text-green-500/10 text-xl md:text-3xl font-thin select-none"
-            style={{ left: `${x}%`, top: `${y}%` }}
+            className="absolute text-green-500/10 text-xl md:text-3xl font-thin select-none transform-gpu"
+            style={{ left: `${x}%`, top: `${y}%`, willChange: 'transform, opacity' }}
             animate={{
                 y: [0, -30, 0],
                 rotate: [0, 45, 0],
@@ -79,7 +83,7 @@ const FloatingGlyph: React.FC<FloatingGlyphProps> = ({ x, y, delay, shape }) => 
                 scale: [1, 1.2, 1]
             }}
             transition={{
-                duration: 10 + Math.random() * 5,
+                duration: 10 + delay,
                 repeat: Infinity,
                 ease: "easeInOut",
                 delay: delay
