@@ -16,6 +16,19 @@ const ShareStoryModal: React.FC<ShareStoryModalProps> = ({ isOpen, onClose }) =>
   const handleShareNow = async () => {
     setStatus('sharing');
     
+    // Always copy link to clipboard first
+    try {
+      await navigator.clipboard.writeText(APP_LINK);
+    } catch (err) {
+      // Fallback for clipboard
+      const textArea = document.createElement('textarea');
+      textArea.value = APP_LINK;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+    }
+    
     try {
       // Fetch the image and convert to blob
       const response = await fetch(IMAGE_PATH);
